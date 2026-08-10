@@ -1,0 +1,16 @@
+name: Build Android APK    # 1. Название процесса
+
+on:                       # 2. ТРИГГЕР (Когда запускать?)
+  push:
+    branches: [ main ]     # При отправке кода в ветку main
+
+jobs:                     # 3. СПИСОК ЗАДАЧ
+  build:                  # Задача под названием "build"
+    runs-on: ubuntu-latest # Где выполнять? (На виртуальной машине Ubuntu)
+
+    steps:                # 4. ПОШАГОВЫЕ ДЕЙСТВИЯ
+      - name: Скачать код  # Шаг 1: Забрать файлы из репозитория
+        uses: actions/checkout@v4
+
+      - name: Собрать APK  # Шаг 2: Выполнить команду сборки
+        run: buildozer -v android debug
