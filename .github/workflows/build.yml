@@ -1,27 +1,30 @@
-name: Build Android APK    # 1. Название процесса
+name: Build Android APK
 
-on:                       # 2. ТРИГГЕР (Когда запускать?)
+on:
   push:
-    branches: [ main ]     # При отправке кода в ветку main
+    branches: [ main ]
+  workflow_dispatch:
 
-jobs:                     # 3. СПИСОК ЗАДАЧ
-  build:                  # Задача под названием "build"
-    runs-on: ubuntu-latest # Где выполнять? (На виртуальной машине Ubuntu)
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-    steps:                # 4. ПОШАГОВЫЕ ДЕЙСТВИЯ
-      - name: Скачать код  # Шаг 1: Забрать файлы из репозитория
+    steps:
+      - name: Скачать код
         uses: actions/checkout@v4
 
-      - name: Настройка Python  # Шаг 2: Устанавливаем Python
+      - name: Настройка Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Установка зависимостей и Buildozer  # Шаг 3: Устанавливаем системные пакеты и buildozer
+      - name: Установка зависимостей и Buildozer
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev python3-dev zip unzip zlib1g-dev openjdk-17-jdk ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixin-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            build-essential ccache git libffi-dev libssl-dev python3-dev zip unzip zlib1g-dev openjdk-17-jdk
           pip install --upgrade pip setuptools Cython buildozer
 
-      - name: Собрать APK  # Шаг 4: Выполнить команду сборки
-        run: buildozer -v android debug
+      - name: Собрать APK
+        run: |
+          yes | buildozer -v android debug
