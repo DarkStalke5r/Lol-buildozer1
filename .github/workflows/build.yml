@@ -12,5 +12,16 @@ jobs:                     # 3. СПИСОК ЗАДАЧ
       - name: Скачать код  # Шаг 1: Забрать файлы из репозитория
         uses: actions/checkout@v4
 
-      - name: Собрать APK  # Шаг 2: Выполнить команду сборки
+      - name: Настройка Python  # Шаг 2: Устанавливаем Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Установка зависимостей и Buildozer  # Шаг 3: Устанавливаем системные пакеты и buildozer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev python3-dev zip unzip zlib1g-dev openjdk-17-jdk ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixin-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev
+          pip install --upgrade pip setuptools Cython buildozer
+
+      - name: Собрать APK  # Шаг 4: Выполнить команду сборки
         run: buildozer -v android debug
