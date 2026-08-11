@@ -19,8 +19,7 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 0.1
 
 # (list) Application requirements
-# Синхронизируем python3 и hostpython3, чтобы p4a не качал недопустимую версию 3.14
-requirements = python3, kivy
+requirements = python3,kivy
 
 # (str) Supported orientations
 orientation = portrait
@@ -28,21 +27,20 @@ orientation = portrait
 # (bool) Indicate if the application should be fullscreen or not
 fullscreen = 0
 
-# (list) Permissions
-# permissions = INTERNET
+# (list) Permissions (раскомментируйте, если приложению нужен интернет)
+# android.permissions = INTERNET
 
-# (list) List of service to declare
-# services = Name:service.py
+# (int) Target Android API (стандарт для современных устройств)
+android.api = 33
+
+# (int) Minimum API supported (API 24 = Android 7.0)
+android.minapi = 24
 
 # (list) Architectural target
 android.archs = arm64-v8a
 
 # (bool) Accept SDK license automatically
 android.accept_sdk_license = True
-
-# (str) Extra arguments to pass to python-for-android
-# Принудительно задаем версию hostpython для тулчейна
-p4a.extra_args = --hostpython=3.11.0
 
 [buildozer]
 
