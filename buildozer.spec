@@ -20,7 +20,7 @@ version = 0.1
 
 # (list) Application requirements
 # Синхронизируем python3 и hostpython3, чтобы p4a не качал недопустимую версию 3.14
-requirements = python3==3.11.0, hostpython3==3.11.0, kivy
+requirements = python3, kivy
 
 # (str) Supported orientations
 orientation = portrait
