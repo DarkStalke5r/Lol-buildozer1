@@ -16,9 +16,9 @@ jobs:
       - name: Настройка Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # Выставляем 3.11, чтобы совпадало с target python
+          python-version: '3.11' # Поднимаем версию до 3.11, чтобы совпадала с target-версией
 
-      - name: Настройка Java JDK 17
+      - name: Настройкаа Java JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
