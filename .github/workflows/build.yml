@@ -24,15 +24,34 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      # Добавлено кэширование NDK и собранных рецептов для ускорения повторных сборок
+      - name: Кэширование Buildozer
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.buildozer
+            .buildozer
+          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-buildozer-
+
       - name: Установка системных зависимостей и Buildozer
         run: |
           sudo apt-get update
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
             build-essential ccache git libffi-dev libssl-dev python3-dev zip unzip zlib1g-dev \
-            autoconf libtool pkg-config libltdl-dev lld cmake
+            autoconf libtool pkg-config libltdl-dev lld cmake \
+            libsqlite3-dev libreadline-dev libncursesw5-dev libgdbm-dev libc6-dev sqlite3 tk-dev libbz2-dev lzma liblzma-dev
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install "cython<3.0.0" buildozer
+          python -m pip install "cython>=0.29,<3.1" buildozer
 
       - name: Собрать APK
         run: |
           yes | buildozer -v android debug
+
+      # Добавлен шаг сохранения APK-файла в артефакты сборки
+      - name: Сохранить собранный APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: bin/*.apk
